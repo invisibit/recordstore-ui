@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { useSearchParams } from "react-router-dom";
 
-export default class Home extends Component {
+export default class Mymusic extends Component {
+    // const[searchParams] = useSearchParams();
 
     state = {
         favoriteArtists: [],
@@ -12,13 +13,12 @@ export default class Home extends Component {
     };
 
     componentDidMount() {
-        // Need to get the token. Please change. But I want to test[JV]
-        // const sptfySession = new URLSearchParams(window.location.search).get("sptfysession")
+        // Yeah look, fast & fun
+        const sptfySession = window.location.search.split('=')[1]
+        console.log("window.location.search", window.location.search.split('=')[1])
 
         if (this.state.favoriteArtists.length === 0) {
-            fetch('http://localhost:4000/v1/spotify/followed?sptfySession=BQBGuF7A90xCb9SPshYCpgT9Gm_GF9DJXPk3NCuEBbPRhwPG6JDoGU0l0W8ZrBvIdoRvUeNUzSfH6bkRSxov4ig4hYcGGndNcXwjfl1x6GKwwo0Qg0gc-30qRyKCYxguGD96SF70vWxULpG63xsZAkV3VzI6J_CrH5IyX2Bn3qlWR0nw7N8j5GrRmJUqVdysOgWP')
-                // + sptfySession)
-                // .then((response) => response.json())
+            fetch('http://localhost:4000/v1/spotify/followed?sptfySession=' + sptfySession)
                 .then((response) => {
                     console.log("Status", response.status);
                     if (response.status !== "200") {
@@ -43,9 +43,7 @@ export default class Home extends Component {
                 });
 
             // Get the saved Albums
-            fetch('http://localhost:4000/v1/spotify/savedAlbums?sptfySession=BQBGuF7A90xCb9SPshYCpgT9Gm_GF9DJXPk3NCuEBbPRhwPG6JDoGU0l0W8ZrBvIdoRvUeNUzSfH6bkRSxov4ig4hYcGGndNcXwjfl1x6GKwwo0Qg0gc-30qRyKCYxguGD96SF70vWxULpG63xsZAkV3VzI6J_CrH5IyX2Bn3qlWR0nw7N8j5GrRmJUqVdysOgWP')
-                // + sptfySession)
-                // .then((response) => response.json())
+            fetch('http://localhost:4000/v1/spotify/savedAlbums?sptfySession=' + sptfySession)
                 .then((response) => {
                     console.log("Status", response.status);
                     if (response.status !== "200") {
