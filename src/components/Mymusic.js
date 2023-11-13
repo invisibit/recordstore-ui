@@ -5,6 +5,7 @@ export default class Mymusic extends Component {
     // const[searchParams] = useSearchParams();
 
     state = {
+        musicData: null,
         favoriteArtists: [],
         savedAlbums: [],
         isArtistLoaded: false,
@@ -15,10 +16,9 @@ export default class Mymusic extends Component {
     componentDidMount() {
         // Yeah look, fast & fun
         const sptfySession = window.location.search.split('=')[1]
-        console.log("window.location.search", window.location.search.split('=')[1])
 
         if (this.state.favoriteArtists.length === 0) {
-            fetch('http://localhost:4000/v1/spotify/followed?sptfySession=' + sptfySession)
+            fetch('http://localhost:4000/v1/spotify/userMusicData?sptfySession=' + sptfySession)
                 .then((response) => {
                     console.log("Status", response.status);
                     if (response.status !== "200") {
@@ -29,8 +29,11 @@ export default class Mymusic extends Component {
                     return response.json();
                 })
                 .then((json) => {
+                    console.log("response", json)
+                    JSON.stringify(json);
+                    console.log("response stringify", json)
                     this.setState({
-                        favoriteArtists: json,
+                        musicData: json,
                         isLoaded: true,
                     },
                         (error) => {
@@ -43,31 +46,31 @@ export default class Mymusic extends Component {
                 });
 
             // Get the saved Albums
-            fetch('http://localhost:4000/v1/spotify/savedAlbums?sptfySession=' + sptfySession)
-                .then((response) => {
-                    console.log("Status", response.status);
-                    if (response.status !== "200") {
-                        let err = Error;
-                        err.message = "Invalid response: " + response.status;
-                        this.setState({ error: err });
-                    }
-                    return response.json();
-                })
-                .then((json) => {
-                    this.setState({
-                        savedAlbums: json,
-                        isLoaded: true,
-                    },
-                        (error) => {
-                            console.log("Nothing")
-                            this.setState({
-                                savedAlbums: json,
-                                isAlbumLoaded: true,
-                                error,
-                            });
-                        }
-                    );
-                });
+            // fetch('http://localhost:4000/v1/spotify/savedAlbums?sptfySession=' + sptfySession)
+            //     .then((response) => {
+            //         console.log("Status", response.status);
+            //         if (response.status !== "200") {
+            //             let err = Error;
+            //             err.message = "Invalid response: " + response.status;
+            //             this.setState({ error: err });
+            //         }
+            //         return response.json();
+            //     })
+            //     .then((json) => {
+            //         this.setState({
+            //             savedAlbums: json,
+            //             isLoaded: true,
+            //         },
+            //             (error) => {
+            //                 console.log("Nothing")
+            //                 this.setState({
+            //                     savedAlbums: json,
+            //                     isAlbumLoaded: true,
+            //                     error,
+            //                 });
+            //             }
+            //         );
+            //     });
         }
     }
 
@@ -82,10 +85,15 @@ export default class Mymusic extends Component {
             return (
                 <Fragment>
                     <h2>Ain't that some shit?</h2>
+
+                    <textarea id="musiAnalysis" name="musiAnalysis" rows="10" cols="50%">
+                        {this.state.musicData.analysis}
+                    </textarea>
+
                     Folllowed Artists
 
                     <ul>
-                        {this.state.favoriteArtists.map((m) => (
+                        {this.state.musicData.artists.map((m) => (
                             <li key={m.id}>
                                 <img src={m.album_image_urls} width='60' border='5' />{m.name}
                             </li>
@@ -97,7 +105,7 @@ export default class Mymusic extends Component {
                     Saved Albums
 
                     <ul>
-                        {this.state.savedAlbums.map((m) => (
+                        {this.state.musicData.albums.map((m) => (
                             <li key={m.id}>
                                 <img src={m.album_image_urls} width='60' border='5' />{m.name}
                             </li>
