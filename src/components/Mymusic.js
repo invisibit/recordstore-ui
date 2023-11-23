@@ -90,7 +90,7 @@ export default class Mymusic extends Component {
                         {this.state.musicData.analysis}
                     </textarea>
 
-                    Folllowed Artists
+                    {/* Folllowed Artists
 
                     <ul>
                         {this.state.musicData.artists.map((m) => (
@@ -110,7 +110,39 @@ export default class Mymusic extends Component {
                                 <img src={m.album_image_urls} width='60' border='5' />{m.name}
                             </li>
                         ))}
-                    </ul>
+                    </ul> */}
+
+                    <table>
+                        <tr>
+                            <td>Folllowed Artists</td>
+                            <td>Saved Albums</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style={{ height: '70%', width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
+                                    <ul>
+                                        {this.state.musicData.artists.map((m) => (
+                                            <li key={m.id}>
+                                                <img src={m.album_image_urls} width='60' border='5' />{m.name}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </td>
+                            <td>
+                                <div style={{ height: '70%', width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
+                                    <ul>
+                                        {this.state.musicData.albums.map((m) => (
+                                            <li key={m.id}>
+                                                <img src={m.album_image_urls} width='60' border='5' />{m.name}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
                 </Fragment>
             );
         }
