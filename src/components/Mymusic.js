@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { useSearchParams } from "react-router-dom";
+// import { useSearchParams } from "react-router-dom";
 
 export default class Mymusic extends Component {
     // const[searchParams] = useSearchParams();
@@ -18,7 +18,7 @@ export default class Mymusic extends Component {
         const sptfySession = window.location.search.split('=')[1]
 
         if (this.state.favoriteArtists.length === 0) {
-            fetch('http://localhost:4000/v1/spotify/userMusicData?sptfySession=' + sptfySession)
+            fetch('http://recordstore-go-344gqgcrvq-uc.a.run.app:4000/v1/spotify/userMusicData?sptfySession=' + sptfySession)
                 .then((response) => {
                     console.log("Status", response.status);
                     if (response.status !== "200") {
@@ -75,7 +75,7 @@ export default class Mymusic extends Component {
     }
 
     render() {
-        const { favoriteArtists, savedAlbums, isArtistLoaded, isAlbumLoaded, error } = this.state;
+        const { isArtistLoaded, isAlbumLoaded, error } = this.state;
 
         if (error) {
             return <div>Error: {error.message}</div>
@@ -119,22 +119,22 @@ export default class Mymusic extends Component {
                         </tr>
                         <tr>
                             <td>
-                                <div style={{ height: '70%', width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
+                                <div style={{ width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
                                     <ul>
                                         {this.state.musicData.artists.map((m) => (
                                             <li key={m.id}>
-                                                <img src={m.album_image_urls} width='60' border='5' />{m.name}
+                                                <img src={m.album_image_urls} width='60' border='5' alt='Artist' />{m.name}
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
                             </td>
                             <td>
-                                <div style={{ height: '70%', width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
+                                <div style={{ width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
                                     <ul>
                                         {this.state.musicData.albums.map((m) => (
                                             <li key={m.id}>
-                                                <img src={m.album_image_urls} width='60' border='5' />{m.name}
+                                                <img src={m.album_image_urls} width='60' border='5' alt='Album' />{m.name}
                                             </li>
                                         ))}
                                     </ul>
