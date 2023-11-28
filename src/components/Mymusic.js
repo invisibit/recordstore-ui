@@ -18,7 +18,7 @@ export default class Mymusic extends Component {
         const sptfySession = window.location.search.split('=')[1]
 
         if (this.state.favoriteArtists.length === 0) {
-            fetch('https://recordstore-go-344gqgcrvq-uc.a.run.app:4000/v1/spotify/userMusicData?sptfySession=' + sptfySession)
+            fetch('https://recordstore-go-344gqgcrvq-uc.a.run.app/v1/spotify/userMusicData?sptfySession=' + sptfySession)
                 .then((response) => {
                     console.log("Status", response.status);
                     if (response.status !== "200") {
