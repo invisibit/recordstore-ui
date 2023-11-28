@@ -12,7 +12,7 @@ export default class Home extends Component {
         window.location.replace('https://accounts.spotify.com/authorize?' +
             'response_type=code' +
             '&client_id=5c37b6f4c90143908b11d9e1727db5e7' +
-            '&redirect_uri=https%3A%2F%2Frecordstore-go-344gqgcrvq-uc.a.run.app%3A8080%2Fv1%2Fspotify%2Fcallback' +
+            '&redirect_uri=https%3A%2F%2Frecordstore-go-344gqgcrvq-uc.a.run.app%2Fv1%2Fspotify%2Fcallback' +
             '&state=state' +
             '&scope=user-library-read user-follow-read');
     }
