@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from 'react';
 
+// const serverUrl = process.env.REACT_APP_SERVER_URL;
+// const serverPort = process.env.REACT_APP_SERVER_PORT;
+
 export default class Home extends Component {
 
     state = {
@@ -9,10 +12,14 @@ export default class Home extends Component {
     };
 
     componentDidMount() {
+        const serverUrl = process.env.REACT_APP_SERVER_URL;
+        const serverPort = process.env.REACT_APP_SERVER_PORT;
+
         window.location.replace('https://accounts.spotify.com/authorize?' +
             'response_type=code' +
             '&client_id=5c37b6f4c90143908b11d9e1727db5e7' +
-            '&redirect_uri=https%3A%2F%2Frecordstore-go-344gqgcrvq-uc.a.run.app%2Fv1%2Fspotify%2Fcallback' +
+            '&redirect_uri=' + serverUrl + ':' + serverPort + '/v1/spotify/callback' +
+            // '&redirect_uri=https%3A%2F%2Frecordstore-go-344gqgcrvq-uc.a.run.app%2Fv1%2Fspotify%2Fcallback' +
             '&state=state' +
             '&scope=user-library-read user-follow-read');
     }

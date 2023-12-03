@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -13,7 +13,7 @@ function App() {
       <div className="container">
         <div className="row">
           <h1 className="mt-3">
-            You emotionally unsatisfied hipster record store clerk
+            Your emotionally unsatisfied hipster record store clerk
           </h1>
           <hr className="mb-3"></hr>
         </div>

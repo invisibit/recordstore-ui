@@ -6,19 +6,22 @@ export default class Mymusic extends Component {
 
     state = {
         musicData: null,
-        favoriteArtists: [],
-        savedAlbums: [],
-        isArtistLoaded: false,
-        isAlbumLoaded: false,
+        // favoriteArtists: [],
+        // savedAlbums: [],
+        isLoaded: false,
+        // isArtistLoaded: false,
+        // isAlbumLoaded: false,
         error: null,
     };
 
     componentDidMount() {
         // Yeah look, fast & fun
         const sptfySession = window.location.search.split('=')[1]
+        const serverUrl = process.env.REACT_APP_SERVER_URL;
+        const serverPort = process.env.REACT_APP_SERVER_PORT;
 
-        if (this.state.favoriteArtists.length === 0) {
-            fetch('https://recordstore-go-344gqgcrvq-uc.a.run.app/v1/spotify/userMusicData?sptfySession=' + sptfySession)
+        if (!this.state.isLoaded) {
+            fetch(serverUrl + ':' + serverPort + '/v1/spotify/userMusicData?sptfySession=' + sptfySession)
                 .then((response) => {
                     console.log("Status", response.status);
                     if (response.status !== "200") {
@@ -38,7 +41,7 @@ export default class Mymusic extends Component {
                     },
                         (error) => {
                             this.setState({
-                                isArtistLoaded: true,
+                                isLoaded: true,
                                 error,
                             });
                         }
@@ -75,11 +78,11 @@ export default class Mymusic extends Component {
     }
 
     render() {
-        const { isArtistLoaded, isAlbumLoaded, error } = this.state;
+        const { isLoaded, error } = this.state;
 
         if (error) {
             return <div>Error: {error.message}</div>
-        } else if (!isArtistLoaded && !isAlbumLoaded) {
+        } else if (!isLoaded) {
             return <p>Loading...</p>;
         } else {
             return (
