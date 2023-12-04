@@ -18,10 +18,11 @@ export default class Mymusic extends Component {
         // Yeah look, fast & fun
         const sptfySession = window.location.search.split('=')[1]
         const serverUrl = process.env.REACT_APP_SERVER_URL;
-        const serverPort = process.env.REACT_APP_SERVER_PORT;
+        // const serverPort = process.env.REACT_APP_SERVER_PORT;
 
         if (!this.state.isLoaded) {
-            fetch(serverUrl + ':' + serverPort + '/v1/spotify/userMusicData?sptfySession=' + sptfySession)
+            fetch(serverUrl + '/v1/spotify/userMusicData?sptfySession=' + sptfySession)
+                // fetch(serverUrl + ':' + serverPort + '/v1/spotify/userMusicData?sptfySession=' + sptfySession)
                 .then((response) => {
                     console.log("Status", response.status);
                     if (response.status !== "200") {
