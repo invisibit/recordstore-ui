@@ -11,7 +11,7 @@ export default class Home extends Component {
     componentDidMount() {
         let serverUrl = process.env.REACT_APP_SERVER_URL;
         const serverPort = process.env.REACT_APP_SERVER_PORT;
-        if (serverPort !== "") {
+        if (serverPort !== null) {
             console.log("Add port");
             serverUrl += ":" + serverPort
         }
