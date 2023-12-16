@@ -16,13 +16,18 @@ export default class Mymusic extends Component {
 
     componentDidMount() {
         // Yeah look, fast & fun
+        console.log("fast and fun")
         const sptfySession = window.location.search.split('=')[1]
-        const serverUrl = process.env.REACT_APP_SERVER_URL;
-        // const serverPort = process.env.REACT_APP_SERVER_PORT;
+        let serverUrl = process.env.REACT_APP_SERVER_URL;
+        const serverPort = process.env.REACT_APP_SERVER_PORT;
+        if (serverPort !== "") {
+            serverUrl += ":" + serverPort
+        }
+        console.log("Url: ", serverUrl)
 
         if (!this.state.isLoaded) {
+            // fetch('http://localhost:4000/v1/spotify/userMusicData?sptfySession=' + sptfySession)
             fetch(serverUrl + '/v1/spotify/userMusicData?sptfySession=' + sptfySession)
-                // fetch(serverUrl + ':' + serverPort + '/v1/spotify/userMusicData?sptfySession=' + sptfySession)
                 .then((response) => {
                     console.log("Status", response.status);
                     if (response.status !== "200") {
@@ -48,33 +53,6 @@ export default class Mymusic extends Component {
                         }
                     );
                 });
-
-            // Get the saved Albums
-            // fetch('http://localhost:4000/v1/spotify/savedAlbums?sptfySession=' + sptfySession)
-            //     .then((response) => {
-            //         console.log("Status", response.status);
-            //         if (response.status !== "200") {
-            //             let err = Error;
-            //             err.message = "Invalid response: " + response.status;
-            //             this.setState({ error: err });
-            //         }
-            //         return response.json();
-            //     })
-            //     .then((json) => {
-            //         this.setState({
-            //             savedAlbums: json,
-            //             isLoaded: true,
-            //         },
-            //             (error) => {
-            //                 console.log("Nothing")
-            //                 this.setState({
-            //                     savedAlbums: json,
-            //                     isAlbumLoaded: true,
-            //                     error,
-            //                 });
-            //             }
-            //         );
-            //     });
         }
     }
 
@@ -89,6 +67,7 @@ export default class Mymusic extends Component {
             return (
                 <Fragment>
                     <h2>Ain't that some shit?</h2>
+                    <button>Sync</button>
 
                     <textarea id="musiAnalysis" name="musiAnalysis" rows="10" cols="100">
                         {this.state.musicData.analysis}
@@ -116,38 +95,66 @@ export default class Mymusic extends Component {
                         ))}
                     </ul> */}
 
-                    <table>
-                        <tr>
-                            <td>Folllowed Artists</td>
-                            <td>Saved Albums</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style={{ width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
-                                    <ul>
-                                        {this.state.musicData.artists.map((m) => (
-                                            <li key={m.id}>
-                                                <img src={m.album_image_urls} width='60' border='5' alt='Artist' />{m.name}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </td>
-                            <td>
-                                <div style={{ width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
-                                    <ul>
-                                        {this.state.musicData.albums.map((m) => (
-                                            <li key={m.id}>
-                                                <img src={m.album_image_urls} width='60' border='5' alt='Album' />{m.name}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                    <div style={{ width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
+                        <table border='2'>
+                            <tr>
+                                <td>Folllowed Artists</td>
+                                <td>Spotify</td>
+                                <td>Amazon</td>
+                                <td>Youtube</td>
+                                <td>Schmapple</td>
+                            </tr>
+                            {this.state.musicData.artists.map((m) => (
+                                <tr>
+                                    <td>
+                                        {/* <div style={{ width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
+                                            <ul> */}
+                                        {/* {this.state.musicData.artists.map((m) => ( */}
+                                        {/* <li key={m.id}> */}
+                                        <img src={m.album_image_urls} width='60' border='5' alt='Artist' />{m.name}
+                                        {/* </li>
+                                                {/* ))} */}
+                                        {/* </ul>
+                                </div> * /} */}
+                                    </td>
+                                    <td>Yes</td>
+                                    <td>Sign in</td>
+                                    <td>Sign in</td>
+                                    <td>Sign in</td>
+                                </tr>
+                            ))}
+                        </table >
+                    </div>
 
-                </Fragment>
+                    <div><p></p></div>
+
+                    <div style={{ width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
+                        <table border='2'>
+                            <tr>
+                                <td>Saved Album</td>
+                                <td>Artist</td>
+                                <td>Spotify</td>
+                                <td>Amazon</td>
+                                <td>Youtube</td>
+                                <td>Schmapple</td>
+                            </tr>
+
+                            {this.state.musicData.albums.map((m) => (
+                                <tr>
+                                    <td>
+                                        <img src={m.album_image_urls} width='60' border='5' alt='Album' />{m.name}
+                                    </td>
+                                    <td>m.</td>
+                                    <td>Yes</td>
+                                    <td>Sign in</td>
+                                    <td>Sign in</td>
+                                    <td>Sign in</td>
+                                </tr>
+                            ))}
+                        </table>
+                    </div>
+
+                </Fragment >
             );
         }
     }

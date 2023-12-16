@@ -1,8 +1,5 @@
 import React, { Component, Fragment } from 'react';
 
-// const serverUrl = process.env.REACT_APP_SERVER_URL;
-// const serverPort = process.env.REACT_APP_SERVER_PORT;
-
 export default class Home extends Component {
 
     state = {
@@ -12,8 +9,13 @@ export default class Home extends Component {
     };
 
     componentDidMount() {
-        const serverUrl = process.env.REACT_APP_SERVER_URL;
-        // const serverPort = process.env.REACT_APP_SERVER_PORT;
+        let serverUrl = process.env.REACT_APP_SERVER_URL;
+        const serverPort = process.env.REACT_APP_SERVER_PORT;
+        if (serverPort !== "") {
+            console.log("Add port");
+            serverUrl += ":" + serverPort
+        }
+        console.log("Url: ", serverUrl)
 
         window.location.replace('https://accounts.spotify.com/authorize?' +
             'response_type=code' +
