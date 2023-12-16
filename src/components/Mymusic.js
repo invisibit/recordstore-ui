@@ -20,7 +20,7 @@ export default class Mymusic extends Component {
         const sptfySession = window.location.search.split('=')[1]
         let serverUrl = process.env.REACT_APP_SERVER_URL;
         const serverPort = process.env.REACT_APP_SERVER_PORT;
-        if (serverPort !== "") {
+        if (serverPort !== null) {
             serverUrl += ":" + serverPort
         }
         console.log("Url: ", serverUrl)
