@@ -8,32 +8,13 @@ export default class Home extends Component {
         error: null,
     };
 
-    componentDidMount() {
-        let serverUrl = process.env.REACT_APP_SERVER_URL;
-        const serverPort = process.env.REACT_APP_SERVER_PORT;
-        if (serverPort != null) {
-            console.log("Add port");
-            serverUrl += ":" + serverPort
-        }
-        console.log("Url: ", serverUrl)
-
-        window.location.replace('https://accounts.spotify.com/authorize?' +
-            'response_type=code' +
-            '&client_id=5c37b6f4c90143908b11d9e1727db5e7' +
-            // '&redirect_uri=' + serverUrl + ':' + serverPort + '/v1/spotify/callback' +
-            '&redirect_uri=' + serverUrl + '/v1/spotify/callback' +
-            // '&redirect_uri=https%3A%2F%2Frecordstore-go-344gqgcrvq-uc.a.run.app%2Fv1%2Fspotify%2Fcallback' +
-            '&state=state' +
-            '&scope=user-library-read user-follow-read');
-    }
-
     render() {
         const { isLoaded, error } = this.state;
 
         if (error) {
             return <div>Error: {error.message}</div>
         } else if (!isLoaded) {
-            return <p>Loading1...</p>;
+            return <p>Login to one of the music services to begin</p>;
         } else {
             return (
                 <Fragment>
