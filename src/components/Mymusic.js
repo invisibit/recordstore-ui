@@ -6,11 +6,7 @@ export default class Mymusic extends Component {
 
     state = {
         musicData: null,
-        // favoriteArtists: [],
-        // savedAlbums: [],
         isLoaded: false,
-        // isArtistLoaded: false,
-        // isAlbumLoaded: false,
         error: null,
     };
 
@@ -41,6 +37,13 @@ export default class Mymusic extends Component {
                     console.log("response", json)
                     JSON.stringify(json);
                     console.log("response stringify", json)
+                    if (json.artists == null) {
+                        json.artists = [];
+                    }
+                    if (json.albums == null) {
+                        json.albums = [];
+                    }
+
                     this.setState({
                         musicData: json,
                         isLoaded: true,
@@ -67,33 +70,10 @@ export default class Mymusic extends Component {
             return (
                 <Fragment>
                     <h2>Ain't that some shit?</h2>
-                    <button>Sync</button>
 
                     <textarea id="musiAnalysis" name="musiAnalysis" rows="10" cols="100">
                         {this.state.musicData.analysis}
                     </textarea>
-
-                    {/* Folllowed Artists
-
-                    <ul>
-                        {this.state.musicData.artists.map((m) => (
-                            <li key={m.id}>
-                                <img src={m.album_image_urls} width='60' border='5' />{m.name}
-                            </li>
-                        ))}
-                    </ul>
-
-                    <br />
-                    <h2>Ain't that some shit?</h2>
-                    Saved Albums
-
-                    <ul>
-                        {this.state.musicData.albums.map((m) => (
-                            <li key={m.id}>
-                                <img src={m.album_image_urls} width='60' border='5' />{m.name}
-                            </li>
-                        ))}
-                    </ul> */}
 
                     <div style={{ width: '40%', height: '250px', overflow: 'auto', border: '2px' }}>
                         <table border='2'>
