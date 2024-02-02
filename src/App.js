@@ -41,6 +41,7 @@ function App() {
           <ButtonToolbar className="custom-btn-toolbar">
             <Button onClick={onSpotifyLogin}>Spotify</Button>
             <Button onClick={window.onAmazonLogin}>Amz</Button>
+            <Button>bandcamp</Button>
             <Button>Toustube</Button>
             <Button>Schmapple</Button>
             <Button>Analyze</Button>

@@ -69,7 +69,7 @@ export default class Mymusic extends Component {
         } else {
             return (
                 <Fragment>
-                    <h2>Ain't that some shit?</h2>
+                    <h2>Ain't that something?</h2>
 
                     <textarea id="musiAnalysis" name="musiAnalysis" rows="10" cols="100">
                         {this.state.musicData.analysis}
