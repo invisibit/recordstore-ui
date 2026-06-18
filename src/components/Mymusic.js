@@ -22,8 +22,8 @@ export default class Mymusic extends Component {
         console.log("Url: ", serverUrl)
 
         if (!this.state.isLoaded) {
-            // fetch('http://localhost:4000/v1/spotify/userMusicData?sptfySession=' + sptfySession)
-            fetch(serverUrl + '/v1/spotify/userMusicData?sptfySession=' + sptfySession)
+            fetch('https://localhost:4000/v1/spotify/userMusicData?sptfySession=' + sptfySession)
+            // fetch(serverUrl + '/v1/spotify/userMusicData?sptfySession=' + sptfySession)
                 .then((response) => {
                     console.log("Status", response.status);
                     if (response.status !== "200") {
@@ -55,6 +55,13 @@ export default class Mymusic extends Component {
                             });
                         }
                     );
+                })
+                .catch(error => {
+                    console.log("Error bitches", error);
+                    this.setState({
+                        isLoaded: true,
+                        error,
+                    });
                 });
         }
     }
