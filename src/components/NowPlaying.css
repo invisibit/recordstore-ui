@@ -1,0 +1,136 @@
+.now-playing-container {
+  position: absolute;
+  top: 35vh;
+  right: 0;
+  width: 450px;
+  height: 450px;
+  z-index: 1000;
+  pointer-events: none; /* Let clicks pass through empty space */
+  filter: drop-shadow(-4px 8px 16px rgba(0, 0, 0, 0.4));
+}
+
+.now-playing-card {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 30, 30, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+  /* Creates an exactly 22.5-degree wedge from top right to bottom */
+  clip-path: polygon(100% 0, 100% 100%, 58.6% 100%);
+  transform-origin: top right;
+  color: #fff;
+  box-sizing: border-box;
+  pointer-events: auto; /* Re-enable for the actual slices */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  filter: drop-shadow(0 0 6px rgba(29, 185, 84, 0.35))
+          drop-shadow(0 0 14px rgba(29, 185, 84, 0.15));
+}
+
+.top-card {
+  background: rgba(45, 45, 45, 0.98); /* Slightly lighter for Now Playing */
+  filter: drop-shadow(0 0 10px rgba(29, 185, 84, 0.5))
+          drop-shadow(0 0 22px rgba(29, 185, 84, 0.3));
+}
+
+.wedge-content {
+  position: absolute;
+  width: 220px;
+  display: flex;
+  flex-direction: row-reverse; /* image closest to center */
+  align-items: center;
+  text-align: right;
+  transform-origin: top right;
+}
+
+.top-item-content {
+  position: absolute;
+  top: -65px; /* Sit right above the horizontal bottom line */
+  right: 150px; /* Image will be 150px from center */
+  width: 280px;
+  display: flex;
+  flex-direction: row-reverse; /* Image on right, closest to center */
+  align-items: center;
+  justify-content: center; /* Center text within the overlay */
+  z-index: 1000; /* Ensure it's above everything */
+  color: #fff;
+}
+
+.top-item-content .album-info {
+  align-items: center; /* centered text */
+  text-align: center;
+  margin-right: 12px;
+}
+
+.wedge-content-top {
+  top: 231px; /* Pushed even closer to the outer edge */
+  right: 96px;
+  /* Rotates content to sit perfectly parallel with the 22.5-degree top edge */
+  transform: rotate(-67.5deg);
+}
+
+.album-cover {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-left: 12px;
+  margin-bottom: 0;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.album-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+
+
+.now-playing-label {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  color: #1db954;
+  font-weight: 700;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.album-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  /* Multiline truncation */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 3px;
+  line-height: 1.1;
+}
+
+.artist-name {
+  font-size: 0.65rem;
+  color: #b3b3b3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.song-name {
+  font-size: 0.7rem;
+  color: #e0e0e0;
+  margin-top: 4px;
+  font-style: italic;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.1;
+}
