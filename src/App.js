@@ -7,6 +7,7 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Home from './components/Home'
 import Mymusic from './components/Mymusic'
 import Consent from './components/Consent'
+import Minimax from './components/minimax'
 
 function App() {
 
@@ -46,6 +47,7 @@ function App() {
             <Button>Analyze</Button>
             <Button>Connect</Button>
             <Button>Sync</Button>
+            <Button onClick={() => window.location.pathname = '/minimax'}>minimax</Button>
 
           </ButtonToolbar>
           <hr className="mb-3"></hr>
@@ -57,6 +59,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/Mymusic" element={<Mymusic />} />
+              <Route path="/minimax" element={<Minimax />} />
               <Route path="/consent" element={<Consent />} />
               <Route path="/lwa.html" />
             </Routes>
