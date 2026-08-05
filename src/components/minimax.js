@@ -11,6 +11,9 @@ const PROVIDERS = [
 ];
 
 const onSpotifyLogin = () => {
+  console.log("Enter OnSpotifyLogin");
+  const response = recordStoreClient.getCurrentUser({});
+  const userId = response.userId || '';
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const serverPort = process.env.REACT_APP_SERVER_PORT;
   const spotifyClientID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
@@ -19,17 +22,42 @@ const onSpotifyLogin = () => {
     : serverUrl;
   window.location.replace(
     'https://accounts.spotify.com/authorize?' +
-      'response_type=code' +
-      '&client_id=' + spotifyClientID +
-      '&redirect_uri=' + redirectBase + '/v1/spotify/callback' +
-      '&state=state' +
-      '&scope=user-library-read user-follow-read'
+    'response_type=code' +
+    '&client_id=' + spotifyClientID +
+    // '&redirect_uri=' + redirectBase + '/v1/spotify/callback/'
+    '&redirect_uri=' + redirectBase + '/v1/spotify/callback' +
+    '&state=state' +
+    '&scope=user-library-read user-follow-read user-read-private'
+  );
+};
+
+const onYoutubeLogin = () => {
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const serverPort = process.env.REACT_APP_SERVER_PORT;
+  const youtubeClientID = process.env.REACT_APP_YOUTUBE_CLIENT_ID;
+  const redirectBase = serverPort
+    ? `${serverUrl}:${serverPort}`
+    : serverUrl;
+  window.location.replace(
+    'https://accounts.google.com/o/oauth2/v2/auth?' +
+    'response_type=code' +
+    '&client_id=' + youtubeClientID +
+    '&redirect_uri=' + redirectBase + '/v1/youtube/callback' +
+    '&scope=https://www.googleapis.com/auth/youtube.force-ssl openid profile email' +
+    '&access_type=offline' +
+    '&include_granted_scopes=true' +
+    '&prompt=consent'
   );
 };
 
 const providerLogin = (id) => {
+  console.log(id);
   if (id === 'spotify') {
     onSpotifyLogin();
+    return;
+  }
+  if (id === 'youtube') {
+    onYoutubeLogin();
     return;
   }
   console.log(`[minimax] login stub: ${id}`);
@@ -268,27 +296,43 @@ class NowPlayingSection extends Component {
 export default class Minimax extends Component {
   state = {
     savedAlbums: { albums: [] },
+    username: '',
     isLoaded: false,
     error: null,
   };
 
   componentDidMount() {
-    const sptfySession = window.location.search.split('=')[1];
-    recordStoreClient.getSavedAlbums({ sptfySession })
-      .then((response) => {
-        this.setState({
-          savedAlbums: { albums: response.albums ?? [] },
-          isLoaded: true,
-        });
-      })
-      .catch((error) => {
-        console.error('getSavedAlbums failed', error);
-        this.setState({ isLoaded: true, error });
-      });
+    this.initializeUser();
   }
 
+  initializeUser = async () => {
+    try {
+      const response = await recordStoreClient.getCurrentUser({});
+      const username = response.username || '';
+      const providers = Array.isArray(response.providers) ? response.providers : [];
+      this.setState({ username });
+
+      let call = null;
+      call = recordStoreClient.getSavedAlbums({});
+
+      if (!call) {
+        this.setState({ isLoaded: true });
+        return;
+      }
+
+      const albumsResponse = await call;
+      this.setState({
+        savedAlbums: { albums: albumsResponse.albums ?? [] },
+        isLoaded: true,
+      });
+    } catch (error) {
+      console.error('initializeUser failed', error);
+      this.setState({ isLoaded: true, error });
+    }
+  };
+
   render() {
-    const { savedAlbums, isLoaded, error } = this.state;
+    const { savedAlbums, username, isLoaded, error } = this.state;
     return (
       <Fragment>
         <div className="minimax-shell">
@@ -299,6 +343,9 @@ export default class Minimax extends Component {
             <div className="minimax-banner__title">
               <span className="ransom">m i n i m a x</span>
               <span className="minimax-banner__sub ransom">a record store, sideways</span>
+            </div>
+            <div className="minimax-banner__user">
+              {username ? username : 'Not signed in'}
             </div>
             <div className="minimax-banner__triangle" aria-hidden="true" />
           </header>
