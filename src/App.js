@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import { React } from "react";
+import { React, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
@@ -8,8 +8,21 @@ import Home from './components/Home'
 import Mymusic from './components/Mymusic'
 import Consent from './components/Consent'
 import Minimax from './components/minimax'
+import { GoogleOAuthProvider, useCodeClient } from '@react-oauth/google';
+// import { useSession } from './session';
 
 function App() {
+  // useSession();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('provider')) {
+      params.delete('provider');
+      const next = window.location.pathname + (params.toString() ? `?${params.toString()}` : '');
+      window.history.replaceState({}, '', next);
+    }
+  }, []);
+
 
   const onSpotifyLogin = () => {
     let serverUrl = process.env.REACT_APP_SERVER_URL;
@@ -29,6 +42,14 @@ function App() {
       '&scope=user-library-read user-follow-read');
   }
 
+  // const onYoutubeLogin = () => {
+  //   const googleClientId = process.env.REACT_APP_YOUTUBE_CLIENT_ID;
+  //   const targetUrl = `https://accounts.google.com/o/oauth2/auth?redirect_uri=${encodeURIComponent(
+  //     'http://127.0.0.1:4000/v1/youtube/callback'
+  //   )}&response_type=token&client_id=${googleClientId}&scope=${encodeURIComponent('https://www.googleapis.com/auth/youtube.readonly')}`;
+  //   window.location.href = targetUrl;
+  // }
+
   return (
     <Router>
       <div className="container">
@@ -40,11 +61,30 @@ function App() {
         </div>
         <div className="row">
           <ButtonToolbar className="custom-btn-toolbar">
-            <Button onClick={onSpotifyLogin}>Spotify</Button>
+            {/* <Button onClick={onSpotifyLogin}>Spotify</Button>
             <Button onClick={window.onAmazonLogin}>Amz</Button>
             <Button>bandcamp</Button>
-            <Button>Toustube</Button>
-            <Button>Schmapple</Button>
+            <Button onClick={onYoutubeLogin}>Toustube</Button> */}
+            {/* <div id="g_id_onload"
+                data-client_id="873553360750-a44t96msif0m3mgor6kkffl7guq60cab.apps.googleusercontent.com"
+                data-context="signin"
+                data-ux_mode="popup"
+                data-login_uri="https://127.0.0.1:4000/v1/youtube/callback"
+                data-auto_prompt="false">
+              <Button>Toustube2</Button>
+            </div>
+
+            <div class="g_id_signin"
+                data-type="standard"
+                data-shape="pill"
+                data-theme="outline"
+                data-text="signin_with"
+                data-size="medium"
+                data-logo_alignment="left"
+                data-width="250">
+              <Button>Toustube3</Button>
+            </div> */}
+            {/* <Button>Schmapple</Button> */}
             <Button>Analyze</Button>
             <Button>Connect</Button>
             <Button>Sync</Button>

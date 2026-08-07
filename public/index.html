@@ -52,7 +52,7 @@
         'amazon_music': { 'access': false }
       };
       amazon.Login.authorize(options,
-        'http://localhost:4000/v1/amazon/callback');
+        'http://127.0.0.1:4000/v1/amazon/callback');
       return false;
     };
   </script>
@@ -95,7 +95,7 @@
         'profile': { 'essential': false }
       };
       amazon.Login.authorize(options,
-        'https://localhost:4000/v1/Amazon/callback');
+        'https://127.0.0.1:4000/v1/Amazon/callback');
       return false;
     };
   </script> -->

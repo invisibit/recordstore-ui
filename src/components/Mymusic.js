@@ -11,36 +11,29 @@ export default class Mymusic extends Component {
     };
 
     componentDidMount() {
-        const sptfySession = window.location.search.split('=')[1];
-
         if (this.state.isLoaded) return;
 
-        // recordStoreClient.getUserMusicData({ sptfySession })
-        //     .then((response) => {
-        //         this.setState({
-        //             musicData: {
-        //                 artists: response.artists ?? [],
-        //                 albums: response.albums ?? [],
-        //                 analysis: response.analysis,
-        //             },
-        //             isLoaded: true,
-        //         });
-        //     })
-        //     .catch((error) => {
-        //         console.error("getUserMusicData failed", error);
-        //         this.setState({ isLoaded: true, error });
-        //     });
-
-        // Split followed artists and saved albums in to separate calls
-        // Only get saved albums now
-        recordStoreClient.getSavedAlbums({ sptfySession })
+        recordStoreClient.getCurrentUser({})
             .then((response) => {
-                this.setState({
-                    savedAlbums: {
-                        albums: response.albums ?? [],
-                    },
-                    isLoaded: true,
-                });
+                const providers = Array.isArray(response.providers) ? response.providers : [];
+                if (!response.userId || providers.length === 0) {
+                    this.setState({ isLoaded: true });
+                    return;
+                }
+
+                const call = providers.includes('spotify')
+                    ? recordStoreClient.getSavedAlbums({})
+                    : recordStoreClient.getYoutubeSavedAlbums({});
+
+                return call
+                    .then((response) => {
+                        this.setState({
+                            savedAlbums: {
+                                albums: response.albums ?? [],
+                            },
+                            isLoaded: true,
+                        });
+                    });
             })
             .catch((error) => {
                 console.error("getSavedAlbums failed", error);

@@ -65,6 +65,15 @@
   border-bottom: 2px solid var(--mm-red);
 }
 
+.minimax-banner__user {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--mm-ink);
+  margin-right: 24px;
+  align-self: center;
+  white-space: nowrap;
+}
+
 .minimax-banner__triangle {
   width: 0;
   height: 0;
