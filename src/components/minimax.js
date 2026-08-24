@@ -14,35 +14,26 @@ const onSpotifyLogin = () => {
   console.log("Enter OnSpotifyLogin");
   const response = recordStoreClient.getCurrentUser({});
   const userId = response.userId || '';
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
-  const serverPort = process.env.REACT_APP_SERVER_PORT;
+  const apiUrl = process.env.REACT_APP_API_URL || 'https://recordstore.spyrafall.com:4000';
   const spotifyClientID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-  const redirectBase = serverPort
-    ? `${serverUrl}:${serverPort}`
-    : serverUrl;
   window.location.replace(
     'https://accounts.spotify.com/authorize?' +
     'response_type=code' +
     '&client_id=' + spotifyClientID +
-    // '&redirect_uri=' + redirectBase + '/v1/spotify/callback/'
-    '&redirect_uri=' + redirectBase + '/v1/spotify/callback' +
+    '&redirect_uri=' + apiUrl + '/v1/spotify/callback' +
     '&state=state' +
     '&scope=user-library-read user-follow-read user-read-private'
   );
 };
 
 const onYoutubeLogin = () => {
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
-  const serverPort = process.env.REACT_APP_SERVER_PORT;
+  const apiUrl = process.env.REACT_APP_API_URL || 'https://recordstore.spyrafall.com:4000';
   const youtubeClientID = process.env.REACT_APP_YOUTUBE_CLIENT_ID;
-  const redirectBase = serverPort
-    ? `${serverUrl}:${serverPort}`
-    : serverUrl;
   window.location.replace(
     'https://accounts.google.com/o/oauth2/v2/auth?' +
     'response_type=code' +
     '&client_id=' + youtubeClientID +
-    '&redirect_uri=' + redirectBase + '/v1/youtube/callback' +
+    '&redirect_uri=' + apiUrl + '/v1/youtube/callback' +
     '&scope=https://www.googleapis.com/auth/youtube.force-ssl openid profile email' +
     '&access_type=offline' +
     '&include_granted_scopes=true' +

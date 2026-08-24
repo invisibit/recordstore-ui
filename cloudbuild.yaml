@@ -1,0 +1,48 @@
+substitutions:
+  _REGION: us-central1
+  _PROJECT: hipster-record-store-clerk
+  _REPO: recordstore-ui
+  _AR_REPO: recordstore
+  _SERVICE: recordstore-ui
+  _API_URL: 'https://recordstore.spyrafall.com'
+  _SPOTIFY_CLIENT_ID: '5c37b6f4c90143908b11d9e1727db5e7'
+  _YOUTUBE_CLIENT_ID: '873553360750-a44t96msif0m3mgor6kkffl7guq60cab.apps.googleusercontent.com'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+steps:
+- id: build
+  name: gcr.io/cloud-builders/docker
+  args:
+  - build
+  - --tag=${_REGION}-docker.pkg.dev/${_PROJECT}/${_AR_REPO}/${_REPO}:$SHORT_SHA
+  - --tag=${_REGION}-docker.pkg.dev/${_PROJECT}/${_AR_REPO}/${_REPO}:latest
+  - --build-arg=REACT_APP_API_URL=${_API_URL}
+  - --build-arg=REACT_APP_SERVER_URL=${_API_URL}
+  - --build-arg=REACT_APP_SERVER_PORT=
+  - --build-arg=REACT_APP_SPOTIFY_CLIENT_ID=${_SPOTIFY_CLIENT_ID}
+  - --build-arg=REACT_APP_YOUTUBE_CLIENT_ID=${_YOUTUBE_CLIENT_ID}
+  - --file=Dockerfile
+  - .
+
+- id: push
+  name: gcr.io/cloud-builders/docker
+  args:
+  - push
+  - --all-tags
+  - ${_REGION}-docker.pkg.dev/${_PROJECT}/${_AR_REPO}/${_REPO}
+
+# Cloud Run env vars are managed by Terraform; Cloud Build only rolls the image.
+- id: deploy
+  name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  entrypoint: gcloud
+  args:
+  - run
+  - deploy
+  - ${_SERVICE}
+  - --image=${_REGION}-docker.pkg.dev/${_PROJECT}/${_AR_REPO}/${_REPO}:$SHORT_SHA
+  - --region=${_REGION}
+
+images:
+- ${_REGION}-docker.pkg.dev/${_PROJECT}/${_AR_REPO}/${_REPO}:$SHORT_SHA

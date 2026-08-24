@@ -25,19 +25,13 @@ function App() {
 
 
   const onSpotifyLogin = () => {
-    let serverUrl = process.env.REACT_APP_SERVER_URL;
-    const serverPort = process.env.REACT_APP_SERVER_PORT;
+    const apiUrl = process.env.REACT_APP_API_URL || 'https://recordstore.spyrafall.com:4000';
     const spotifyClientID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
-    if (serverPort != null) {
-      console.log("Add port");
-      serverUrl += ":" + serverPort
-    }
-    console.log("Url: ", serverUrl)
 
     window.location.replace('https://accounts.spotify.com/authorize?' +
       'response_type=code' +
       '&client_id=' + spotifyClientID +
-      '&redirect_uri=' + serverUrl + '/v1/spotify/callback' +
+      '&redirect_uri=' + apiUrl + '/v1/spotify/callback' +
       '&state=state' +
       '&scope=user-library-read user-follow-read');
   }

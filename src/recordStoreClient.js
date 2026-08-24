@@ -2,12 +2,12 @@ import { createClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
 import { RecordStoreService } from "./gen/recordstore/v1/recordstore_pb.ts";
 
-const serverUrl = process.env.REACT_APP_API_URL || process.env.REACT_APP_SERVER_URL || "https://127.0.0.1";
-const serverPort = process.env.REACT_APP_API_PORT || process.env.REACT_APP_SERVER_PORT;
-const baseUrl = serverPort ? `${serverUrl}:${serverPort}` : serverUrl;
+// Same-origin in prod (API is routed via the LB's path rules).
+// For local dev, set REACT_APP_API_URL=http://127.0.0.1:<port> in .env.
+const apiUrl = process.env.REACT_APP_API_URL || "";
 
 const transport = createConnectTransport({
-  baseUrl,
+  baseUrl: apiUrl,
   fetch: (url, init) => fetch(url, Object.assign({ credentials: "include" }, init)),
 });
 
