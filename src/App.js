@@ -25,7 +25,7 @@ function App() {
 
 
   const onSpotifyLogin = () => {
-    const apiUrl = process.env.REACT_APP_API_URL || 'https://recordstore.spyrafall.com:4000';
+    const apiUrl = process.env.REACT_APP_API_URL || 'https://recordstore.spyrafall.com';
     const spotifyClientID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
 
     window.location.replace('https://accounts.spotify.com/authorize?' +

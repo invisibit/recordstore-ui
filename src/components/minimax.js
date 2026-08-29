@@ -14,7 +14,7 @@ const onSpotifyLogin = () => {
   console.log("Enter OnSpotifyLogin");
   const response = recordStoreClient.getCurrentUser({});
   const userId = response.userId || '';
-  const apiUrl = process.env.REACT_APP_API_URL || 'https://recordstore.spyrafall.com:4000';
+  const apiUrl = process.env.REACT_APP_API_URL || 'https://recordstore.spyrafall.com';
   const spotifyClientID = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   window.location.replace(
     'https://accounts.spotify.com/authorize?' +
@@ -27,7 +27,7 @@ const onSpotifyLogin = () => {
 };
 
 const onYoutubeLogin = () => {
-  const apiUrl = process.env.REACT_APP_API_URL || 'https://recordstore.spyrafall.com:4000';
+  const apiUrl = process.env.REACT_APP_API_URL || 'https://recordstore.spyrafall.com';
   const youtubeClientID = process.env.REACT_APP_YOUTUBE_CLIENT_ID;
   window.location.replace(
     'https://accounts.google.com/o/oauth2/v2/auth?' +
